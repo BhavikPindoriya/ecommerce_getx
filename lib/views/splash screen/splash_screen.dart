@@ -1,6 +1,8 @@
 import 'package:e_cart_ecommerce/consts/consts.dart';
 import 'package:e_cart_ecommerce/views/auth_screen/login_screen.dart';
+import 'package:e_cart_ecommerce/views/home_screen/home.dart';
 import 'package:e_cart_ecommerce/widget_common/applogo_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +20,17 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 3), () {
       //using getx
 
-      Get.to(() => LoginScreen());
+      // Get.to(() => LoginScreen());
+
+      // this is the user alredy login then redirect the homescreen otherwise Login screen display
+
+      auth.authStateChanges().listen((User? user) {
+        if (user == null && mounted) {
+          Get.to(() => LoginScreen());
+        } else {
+          Get.to(() => Home());
+        }
+      });
     });
   }
 
